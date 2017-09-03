@@ -19,7 +19,7 @@ def calculateWater():
 
 
 def getCups(lat, lon):
-    apikey = "f15278a7a8e8d4d50785652b101a6619"
+    apikey = os.environ['FORECAST_KEY']
     forecast = forecastio.load_forecast(apikey, lat, lon)
     #pprint(forecast.json['currently']['apparentTemperature'])
     #print getplace(lat, lng)
