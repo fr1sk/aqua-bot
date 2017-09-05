@@ -1,5 +1,5 @@
 # 🚰🤖 aqua-bot 🚰🤖
-##### messenger chat bot that reminds you to drink water, and calculate how much water should you drink
+messenger chat bot that reminds you to drink water, and calculate how much water should you drink
 
 
 ## 💻 Technologies Used 💻
