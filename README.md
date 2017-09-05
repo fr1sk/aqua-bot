@@ -1,5 +1,5 @@
 # 🚰🤖 aqua-bot 🚰🤖
-### messenger chat bot that reminds you to drink water, and calculate how much water should you drink
+##### messenger chat bot that reminds you to drink water, and calculate how much water should you drink
 
 
 ## 💻 Technologies Used 💻
@@ -9,8 +9,10 @@
 
 ## 🤖 Demo 🤖
 conversation demo:
+
 ![alt tag](https://raw.githubusercontent.com/fr1sk/aqua-bot/master/gif.gif)
 reminder demo:
+
 
 
 ## 📦 Installation 📦
