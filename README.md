@@ -11,7 +11,9 @@ messenger chat bot that reminds you to drink water, and calculate how much water
 conversation demo:
 
 ![alt tag](https://raw.githubusercontent.com/fr1sk/aqua-bot/master/gif.gif)
+
 reminder demo:
+![alt tag](https://raw.githubusercontent.com/fr1sk/aqua-bot/master/reminder.jpg)
 
 
 
