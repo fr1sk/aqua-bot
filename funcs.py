@@ -1,16 +1,15 @@
 import forecastio
 import sys
+import json
+import os
+import config
 from pprint import pprint
 from urllib2 import urlopen
-import json
-import config
 
 reload(sys)
 sys.setdefaultencoding('UTF8')
 
-def calculateWater():
-    age=config.age
-    kg=config.kg
+def calculateWater(age, kg):
     print "VREDNOST:", age, kg
     lbs = 2.20462262 * kg
     final = ((lbs/2.2)*age) / 28.3
@@ -18,7 +17,7 @@ def calculateWater():
     return cups
 
 
-def getCups(lat, lon):
+def getCups(lat, lon, age, kg):
     apikey = os.environ['FORECAST_KEY']
     forecast = forecastio.load_forecast(apikey, lat, lon)
     #pprint(forecast.json['currently']['apparentTemperature'])
@@ -33,7 +32,7 @@ def getCups(lat, lon):
     if town != None and city != None:
         string = "Currently in %s, %s it's around %.1f degrees.  " %(city, town, temp)
 
-    cups = calculateWater()
+    cups = calculateWater(age, kg)
     stringCups = ""
     if temp > 25:
         stringWeather = "Since the weather is \xF0\x9F\x8C\x9E, "
@@ -49,6 +48,7 @@ def getplace(lat, lon):
     url += "latlng=%s,%s&sensor=false" % (lat, lon)
     v = urlopen(url).read()
     j = json.loads(v)
+    print "JSON ADDRESS:", j
     components = j['results'][0]['address_components']
     country = town = None
     for c in components:

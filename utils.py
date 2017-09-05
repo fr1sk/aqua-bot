@@ -1,8 +1,9 @@
 from wit import Wit
 from pprint import pprint
 import re
+import os
 
-accessToken = "P5AVH7DHOLYCOTO6MZ2KMD7YKZHVYAVZ"
+accessToken = os.environ['WIT_TOKEN']
 client = Wit(accessToken)
 
 def wit_response(msg):
@@ -13,7 +14,6 @@ def wit_response(msg):
     maxConfidenceEntity = None
 
     try:
-        x = 0
         for singleEntity in list(resp['entities']):
             if maxConfidenceEntity == None:
                 maxConfidenceEntity = resp['entities'][singleEntity]
@@ -33,5 +33,5 @@ def wit_response(msg):
     #print int(re.findall(r'\d+', value)[0])
     return(entity, value, name)
 
-print wit_response("I have 95 kg")
+#print wit_response("I have 95 kg")
 #wit_response("22 years old")
