@@ -14,7 +14,7 @@ import threading
 
 from flask import Flask, request
 from pprint import pprint
-from pymessenger import Bot
+from pymessenger2.bot import Bot
 from utils import wit_response
 from random import randint
 from funcs import getCups
@@ -284,7 +284,6 @@ def test():
 schedule.every().day.at("7:05").do(reminder, period="morning")  #9
 schedule.every().day.at("11:00").do(reminder, period="noon")    #13
 schedule.every().day.at("17:00").do(reminder, period="evening") #19
-schedule.every().day.at("10:13").do(reminder, period="evening") #19
 
 #schedule.every().day.at("8:18").do(reminder, period=("evening")) #test
 

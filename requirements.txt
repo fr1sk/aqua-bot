@@ -7,6 +7,7 @@ gunicorn==19.6.0
 itsdangerous==0.24
 requests==2.10.0
 pymessenger==0.0.7.0
+pymessenger2==3.0.5
 wsgiref==0.1.2
 wit==4.3.0
 psycopg2==2.7.3.1
