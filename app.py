@@ -32,7 +32,7 @@ bot = Bot(os.environ['BOT_ID'])
 listOfGifs = ["https://media2.giphy.com/media/26n6MSDzWXSf98qK4/giphy.gif", "https://media1.giphy.com/media/rrXfsgLwkKyEU/giphy.gif", "http://www.ohmagif.com/wp-content/uploads/2014/07/funny-dog-drinking-water-from-hose.gif", "https://media.giphy.com/media/xTiTncVep2khPGhK1i/giphy.gif", "https://media.giphy.com/media/PAujV4AqViWCA/giphy.gif", "https://media.giphy.com/media/l3vR3EssQ5ALagr7y/giphy.gif", "https://media2.giphy.com/media/unFLKoAV3TkXe/giphy.gif"]
 listOfReminder = ["https://media.giphy.com/media/Oa18RxR2OiU4o/giphy.gif", "https://media.giphy.com/media/nfnF2zVPRemXu/giphy.gif", "https://media.giphy.com/media/Bqn8Z7xdPCFy0/giphy.gif"]
 botId = os.environ['BOT_FB_ID']
-#r = redis.from_url(os.environ.get("REDIS_URL"))
+# r = redis.from_url(os.environ.get("REDIS_URL"))
 
 # Create our database model
 class User(db.Model):
@@ -60,12 +60,13 @@ def dictInit():
 @app.route('/', methods=['POST'])
 def webhook():
     data = request.get_json()
-    #log(data)
+    log(data) #data logging
     stickerAttachment = None
     locationAttachment = None
     text = None
     edgeCases = False
     answer = None
+    ref = None
     if data['object'] == 'page':
         for entry in data['entry']:
             if entry.get('messaging'):
@@ -73,6 +74,10 @@ def webhook():
                     #save ids
                     senderId = messaging['sender']['id']
                     recipientId = messaging['recipient']['id']
+                    #REFERAL
+                    if messaging.get('referral'):
+                        ref = messaging['referral']['ref']
+                        log("REF "+ref)
                     if messaging.get('message'):
                         edgeCases = False
                         if 'text' in messaging['message']:
@@ -130,7 +135,8 @@ def webhook():
                     print "WATER_CALC", config.dict[senderId]['kg'], config.dict[senderId]['age']
                     return "ok", 200
                 elif name == "age_of_person" and config.dict[senderId]['insideCalc']==1:
-                    config.dict[senderId]['age'] = int(value)
+                    x = re.findall('\d+', value)[0]
+                    config.dict[senderId]['age'] = int(x)
                     response = "Cool, thanks. I will remember now, you are %d" %config.dict[senderId]['age']
                     bot.send_text_message(senderId, response)
                     time.sleep(2)
@@ -181,7 +187,7 @@ def webhook():
                 return "ok", 200
             else:
                 if stickerAttachment != None:
-                    bot.send_image_url(senderId, listOfGifs[randint(0,len(listOfGifs))])
+                    bot.send_image_url(senderId, listOfGifs[randint(0,len(listOfGifs)-1)])
                     return "ok", 200
                 elif locationAttachment != None and config.dict[senderId]['insideCalc']==1:
                     bot.send_image_url(senderId, listOfGifs[randint(0,len(listOfGifs)-1)])
@@ -198,6 +204,9 @@ def webhook():
                     button2 = fbApi.create_buttons("postback","No",payload="y")
                     bot.send_button_message(senderId,"Do you want me to remind you to drink water?",[button1,button2])
                     return "ok", 200
+        elif ref != None and answer == None:
+                log("REF REF REF REF REF "+ref)
+                bot.send_text_message(senderId, ref)
         if answer != None:
             if answer=="Yes" or answer=="Water reminder":
                 b1 = fbApi.create_buttons("postback","Once",payload="1")
@@ -284,6 +293,7 @@ def test():
 schedule.every().day.at("7:05").do(reminder, period="morning")  #9
 schedule.every().day.at("11:00").do(reminder, period="noon")    #13
 schedule.every().day.at("17:00").do(reminder, period="evening") #19
+
 
 #schedule.every().day.at("8:18").do(reminder, period=("evening")) #test
 
